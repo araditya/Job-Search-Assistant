@@ -1,0 +1,11 @@
+Flask
+flask-cors
+flask-sqlalchemy
+flask-jwt-extended
+requests
+python-dotenv
+psycopg2-binary
+openai
+spacy
+nltk
+linkedin-api

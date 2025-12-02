@@ -1,0 +1,69 @@
+# Simple manual test steps for Job Search App
+
+## Step 1: Open Terminal 1 - Start Backend
+cd 'c:\Users\aauradker\Desktop\Job Search Assistant\backend'
+. .\venv\Scripts\Activate.ps1
+$env:RAPIDAPI_KEY = '90a54da8d4msh83e07f3e5def448p1d8c5ejsn90e2d9bf3155'
+python app.py
+
+# You should see:
+# * Running on http://127.0.0.1:5000
+# Press Ctrl+C to stop (but keep running for testing)
+
+## Step 2: Open Terminal 2 - Start Frontend
+cd 'c:\Users\aauradker\Desktop\Job Search Assistant\job-search-app\frontend'
+npm start
+
+# You should see:
+# You can now view job-search-frontend in the browser.
+# Local: http://localhost:3000
+# Press Ctrl+C to stop (but keep running for testing)
+
+## Step 3: Open Terminal 3 - Test Backend Endpoint
+cd 'c:\Users\aauradker\Desktop\Job Search Assistant\backend'
+curl -X POST http://127.0.0.1:5000/search_jobs `
+  -H "Content-Type: application/json" `
+  -d '{"query":"python developer"}'
+
+# If successful, you should see a JSON array of jobs
+
+## Step 4: Test in Browser
+# Open http://localhost:3000 in your browser
+# Enter a search query (e.g., "data analyst")
+# Optionally upload a resume (.txt or .pdf)
+# Click "Search"
+# You should see a table with job results
+
+## Troubleshooting
+
+# If backend fails to start:
+# 1. Check if port 5000 is in use:
+netstat -ano | findstr :5000
+
+# 2. If in use, kill the process (replace <PID>):
+taskkill /PID <PID> /F
+
+# 3. Check for errors in error.log:
+Get-Content .\error.log -Tail 100
+
+# If frontend fails to start:
+# 1. Check if port 3000 is in use:
+netstat -ano | findstr :3000
+
+# 2. Delete node_modules and reinstall:
+cd frontend
+Remove-Item -Recurse -Force node_modules
+npm install
+npm start
+
+# If /search_jobs returns 500 error:
+# 1. Check error.log in backend folder:
+Get-Content error.log -Tail 200
+
+# 2. Verify RAPIDAPI_KEY is set:
+$env:RAPIDAPI_KEY
+
+# 3. Check if API key is valid by testing manually:
+curl -X GET "https://jsearch.p.rapidapi.com/search?query=python&page=1" `
+  -H "X-RapidAPI-Key: 90a54da8d4msh83e07f3e5def448p1d8c5ejsn90e2d9bf3155" `
+  -H "X-RapidAPI-Host: jsearch.p.rapidapi.com"
