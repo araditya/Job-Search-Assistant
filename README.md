@@ -2,7 +2,17 @@
 
 Run and test the backend service locally.
 
-Prerequisites
+## Quick Test
+
+To quickly test if the tool is working:
+
+```bash
+python3 test_tool.py
+```
+
+This will verify all dependencies, configuration, and test the API endpoints.
+
+## Prerequisites
 - Python 3.11+ (this project was tested with Python 3.13)
 - Install dependencies:
 
@@ -33,3 +43,12 @@ Testing
 # from project root
 C:/Python313/python.exe -m pytest backend/test_job_search.py
 ```
+
+## Quick Testing
+
+For comprehensive testing documentation, see [TESTING.md](TESTING.md).
+
+Quick tests:
+- **Automated**: `python3 test_tool.py`
+- **Unit tests**: `python3 -m unittest discover -s . -p "test_*.py"`
+- **Manual**: Follow steps in [TESTING.md](TESTING.md)
