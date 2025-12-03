@@ -1,5 +1,33 @@
 # Quick Start Guide - Production Setup
 
+## 🚀 Fastest Way to Test the Tool
+
+### Option 1: Automated Testing (Recommended)
+
+```bash
+# One command to test everything
+python3 test_tool.py
+```
+
+This will:
+- ✅ Check all dependencies
+- ✅ Verify configuration
+- ✅ Test the API endpoints
+- ✅ Provide a detailed report
+
+### Option 2: Quick Setup & Test Script
+
+```bash
+# Setup and test in one go
+./quick_test.sh
+```
+
+This script will install dependencies, check configuration, and run all tests.
+
+For detailed test examples, see [TEST_EXAMPLES.md](TEST_EXAMPLES.md) and [TESTING.md](TESTING.md).
+
+---
+
 ## 🚀 Fastest Way to Deploy Locally
 
 ### Prerequisites
