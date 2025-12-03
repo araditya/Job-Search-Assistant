@@ -2,3 +2,9 @@ node_modules/
 build/
 .env
 .vscode/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.log
