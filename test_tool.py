@@ -120,8 +120,29 @@ def test_server():
         cwd=Path(__file__).parent
     )
     
-    # Wait for server to start
-    time.sleep(3)
+    # Wait for server to start with retry mechanism
+    max_retries = 10
+    retry_delay = 1
+    server_ready = False
+    
+    for attempt in range(max_retries):
+        time.sleep(retry_delay)
+        try:
+            response = requests.get('http://127.0.0.1:5000/health', timeout=2)
+            if response.status_code == 200:
+                server_ready = True
+                break
+        except requests.exceptions.RequestException:
+            # Server not ready yet
+            pass
+    
+    if not server_ready:
+        print_error("Server failed to start within expected time")
+        process.terminate()
+        _, stderr = process.communicate(timeout=5)
+        if stderr:
+            print_info(f"Server error: {stderr.decode('utf-8', errors='ignore')[:500]}")
+        return False
     
     try:
         # Test health endpoint
@@ -175,12 +196,19 @@ def test_server():
         
     except requests.exceptions.ConnectionError:
         print_error("Could not connect to server - it may not have started")
+        # Show server stderr if available
+        if process.poll() is not None:
+            _, stderr = process.communicate()
+            if stderr:
+                print_info(f"Server error output: {stderr.decode('utf-8', errors='ignore')}")
         return False
     except requests.exceptions.Timeout:
         print_error("Request timed out - server may be slow or unresponsive")
         return False
     except Exception as e:
-        print_error(f"Unexpected error: {e}")
+        print_error(f"Unexpected error during server test: {e}")
+        import traceback
+        print_info(f"Full error: {traceback.format_exc()}")
         return False
     finally:
         # Clean up: kill the server process

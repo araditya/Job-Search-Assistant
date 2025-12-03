@@ -2,8 +2,6 @@
 # Quick start script for Job Search Assistant
 # This script sets up and tests the environment
 
-set -e  # Exit on error
-
 echo "=========================================="
 echo "Job Search Assistant - Quick Setup & Test"
 echo "=========================================="
@@ -25,9 +23,14 @@ fi
 # Install dependencies
 echo ""
 echo "Installing dependencies..."
-pip3 install -r requirements.txt --quiet || {
-    echo "Warning: Some dependencies may not have installed correctly"
-}
+if pip3 install -r requirements.txt --quiet; then
+    echo "✓ Dependencies installed successfully"
+else
+    echo "✗ Failed to install dependencies"
+    echo "  Try: pip3 install --upgrade pip"
+    echo "  Or: python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt"
+    exit 1
+fi
 
 # Check .env file
 if [ ! -f ".env" ]; then
